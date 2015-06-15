@@ -1,5 +1,6 @@
 ﻿using Qowaiv;
 using System;
+using System.Collections.Generic;
 
 namespace GentleWare.Krypto
 {
@@ -29,25 +30,51 @@ namespace GentleWare.Krypto
 		public Int32 Value { get { return Left.Value - Right.Value; } }
 
 		/// <summary>Gets the (potentially) complexity of the node.</summary>
-		public Double Complexity { get { return (Left.Complexity + Right.Complexity) * 1.5; } }
+		public Double Complexity { get { return (Left.Complexity + Right.Complexity) * (Value == 0 ? 0.1 : 1.5); } }
+
+		/// <summary>Returns true as it always contains two nodes.</summary>
+		public bool IsComplex { get { return true; } }
 
 		/// <summary>Negates the node.</summary>
 		public IKryptoNode Negate()
 		{
-			// (a - b) => (b + -a).
+			// (a - a) => (a - a)
+			if (Value == 0)
+			{
+				return new SubtractNode(Left.Simplify(), Right.Simplify());
+			}
+			// (a - b) => (b + -a)
 			return new AddNode(Right.Simplify(), Left.Negate());
 		}
 
 		/// <summary>Simplifies the node.</summary>
 		public IKryptoNode Simplify() 
 		{
-			// (a - b) => (a + -b).
+			// (a - a) => (a - a)
+			if (Value == 0)
+			{
+				return new SubtractNode(Left.Simplify(), Right.Simplify());
+			}
+			// (a - b) => (a + -b)
 			return new AddNode(Left.Simplify(), Right.Negate());
+		}
+
+		/// <summary>Gets the underlying value nodes.</summary>
+		public IEnumerable<ValueNode> GetValueNodes()
+		{
+			foreach (var node in Left.GetValueNodes())
+			{
+				yield return node;
+			}
+			foreach (var node in Right.GetValueNodes())
+			{
+				yield return node;
+			}
 		}
 
 		/// <summary>Represents the node as a <see cref="System.String"/>.</summary>
 		public override string ToString() { return String.Format("({0} - {1})", Left, Right); }
-
+	
 		/// <summary>Returns true if the node and the object are equal, otherwise false.</summary>
 		public override bool Equals(object obj) { return base.Equals(obj); }
 

@@ -53,23 +53,28 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KryptoDeckTest.cs" />
+    <Compile Include="KryptoNodeTest.cs" />
     <Compile Include="KryptoSolverTest.cs" />
     <Compile Include="MultiplyNodeTest.cs" />
     <Compile Include="AddNodeTest.cs" />
     <Compile Include="DivideNodeTest.cs" />
-    <Compile Include="MultiplyWithOneNodeTest.cs" />
+    <Compile Include="PerformanceTest.cs" />
+    <Compile Include="SolutionNodeTest.cs" />
+    <Compile Include="SolutionsAssert.cs" />
     <Compile Include="SubstractNodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NegationNodeTest.cs" />
-    <Compile Include="TestExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ValueNodeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Qowaiv\src\Qowaiv\Qowaiv.csproj">
+      <Project>{8690f17c-8152-42bb-9697-0360758fa832}</Project>
+      <Name>Qowaiv</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GentleWare.Krypto\GentleWare.Krypto.csproj">
       <Project>{74356302-66bd-4d82-8453-1bbb65c60f89}</Project>
       <Name>GentleWare.Krypto</Name>

@@ -1,90 +1,116 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GentleWare.Krypto
 {
+	/// <summary>A solver for Krypto.</summary>
+	/// <remarks>
+	/// Less the two or more then five numbers to solve the Krypto are not
+	/// supported.
+	/// </remarks>
 	public static class KryptoSolver
 	{
-		public static readonly ReadOnlyCollection<int> Deck;
-		private static Random Rnd = new Random();
+		private static readonly char[] Splitter = ";,. ".ToArray();
 
-		static KryptoSolver()
+		
+
+		/// <summary>Solves a Krypto puzzle based on a query string.</summary>
+		/// <param name="query">
+		/// The query string to parse.
+		/// </param>
+		/// <remarks>
+		/// The query string is assumed to be list of numbers concatenate by a
+		/// semicolon, comma, dot, or space. invalid elements are ignored. If
+		/// 
+		/// The first (valid) number is the solution to search for, the other
+		/// (valid) numbers are seen as the numbers for the solution.
+		/// </remarks>
+		public static IEnumerable<SolutionNode> Solve(string query)
 		{
-			var list = new List<int>();
+			var args = (query ?? String.Empty).Split(Splitter, StringSplitOptions.RemoveEmptyEntries);
 
-			for (int n = 1; n <= 25; n++)
+			var numbers = args.Select(arg =>
 			{
-				// 3 cards from 1-10
-				if (n <= 10) { list.Add(n); }
-				// 2 cards from 11-19
-				if (n <= 19) { list.Add(n); }
-				// 1 card from 20-25
-				list.Add(n);
-			}
-			Deck = new ReadOnlyCollection<int>(list);
-		}
+				int n;
+				if (Int32.TryParse(arg, out n)) { return n; }
+				return SolutionNode.NoSolutionValue;
+			}).Where(n => n != SolutionNode.NoSolutionValue).ToList();
 
+			if (numbers.Count > 2 && numbers.Count < 7)
+			{
+				var solution = numbers[0];
+				return Solve(solution, numbers.Skip(1).ToArray());
+			}
+			else
+			{
+				return Enumerable.Empty<SolutionNode>();
+			}
+		}
 
 		public static IEnumerable<SolutionNode> Solve(int solution, params int[] numbers)
 		{
-			return Simplify(GetSolutions(solution, numbers).ToList());
+			return Simplify(GetSolutions(solution, numbers));
 		}
 
 		public static IEnumerable<SolutionNode> GetSolutions(int solution, params int[] numbers)
 		{
 			if (numbers == null || numbers.Length < 2) { throw new ArgumentException("At least two numbers should be specified.", "numbers"); }
 
+			var solutions = Enumerable.Empty<SolutionNode>();
+
 			switch (numbers.Length)
 			{
-				case 5: return Solve5(solution, numbers).Distinct().Select(n => new SolutionNode(n));
-				case 4: return Solve4(solution, numbers).Distinct().Select(n => new SolutionNode(n));
-				case 3: return Solve3(solution, numbers).Distinct().Select(n => new SolutionNode(n));
-				case 2: return Solve2(solution, numbers).Distinct().Select(n => new SolutionNode(n));
+				case 5: solutions= Solve5(solution, numbers).Distinct().Select(n => new SolutionNode(n));  break;
+				case 4: solutions= Solve4(solution, numbers).Distinct().Select(n => new SolutionNode(n));  break;
+				case 3: solutions= Solve3(solution, numbers).Distinct().Select(n => new SolutionNode(n));  break;
+				case 2: solutions= Solve2(solution, numbers).Distinct().Select(n => new SolutionNode(n));  break;
 				default: throw new NotSupportedException("More then five cards is not supported yet.");
 			}
+			if (solutions.Any())
+			{
+				return solutions;
+			}
+			return new SolutionNode[] { SolutionNode.None };
 		}
 
 		public static IEnumerable<SolutionNode> Simplify(IEnumerable<SolutionNode> nodes)
 		{
-			var list = new HashSet<SolutionNode>();
+			var distincts = new HashSet<SolutionNode>();
+			var simplifiers = new HashSet<IKryptoNode>();
 
 			foreach (var node in nodes)
 			{
-				SolutionNode old = null;
-				SolutionNode cur = node;
+				simplifiers.Clear();
 
-				while (!cur.Equals(old))
+				IKryptoNode cur = node;
+				do
 				{
-					old = cur;
-					cur = (SolutionNode)old.Simplify();
-
-					if (old.Value != cur.Value)
+					cur = cur.Simplify();
+					if(node.Value != cur.Value)
 					{
-						throw new Exception("Value changed.");
+						Debugger.Break();
+						throw new Exception("Value changed");
 					}
+					
 				}
-				list.Add(cur);
+				while (simplifiers.Add(cur));
+
+				var best = simplifiers.OrderBy(s => s.Complexity).FirstOrDefault();
+
+				if (best.ToString() == "25 = 5 * ((1) + 4) * (3 - 2)")
+				{
+				}
+				distincts.Add((SolutionNode)best);
 			}
-			return list.OrderBy(s => s.Complexity);
+			return distincts.OrderBy(s => s.Complexity);
 		}
-
-		public static List<int> GetCards(int count) { return GetCards(count, Rnd); }
-
-		public static List<int> GetCards(int count, Random rnd)
-		{
-			var cards = Deck.OrderBy(c => rnd.Next()).Take(count).ToList();
-			return cards;
-		}
-
+		
 		#region 2 Cards
 
-		public static IEnumerable<IKryptoNode> Solve2(int solution, params int[] numbers)
+		private static IEnumerable<IKryptoNode> Solve2(int solution, params int[] numbers)
 		{
-			if (numbers == null || numbers.Length != 2) { throw new ArgumentOutOfRangeException("numbers", "Only two numbers are excepted."); }
-
 			var orders = new List<List<int>>()
 			{
 				new List<int>(){ numbers[0], numbers[1] },
@@ -100,7 +126,7 @@ namespace GentleWare.Krypto
 				{
 					var res = Operate(order[0], order[1], opr);
 
-					if (res >= 0 && solution == res)
+					if (res != SolutionNode.NoSolutionValue && solution == res)
 					{
 						yield return KryptoNode.Create(opr, new ValueNode(order[0]), new ValueNode(order[1]));
 					}
@@ -112,10 +138,8 @@ namespace GentleWare.Krypto
 
 		#region 3 Cards
 
-		public static IEnumerable<IKryptoNode> Solve3(int solution, params int[] numbers)
+		private static IEnumerable<IKryptoNode> Solve3(int solution, params int[] numbers)
 		{
-			if (numbers == null || numbers.Length != 3) { throw new ArgumentOutOfRangeException("numbers", "Three numbers are excepted."); }
-
 			// we need two bit for the four different operators.
 			var operators = 16; // ((numbers.Length - 1) << 4) << 2;
 
@@ -225,10 +249,8 @@ namespace GentleWare.Krypto
 
 		#region 4 Cards
 
-		public static IEnumerable<IKryptoNode> Solve4(int solution, params int[] numbers)
+		private static IEnumerable<IKryptoNode> Solve4(int solution, params int[] numbers)
 		{
-			if (numbers == null || numbers.Length != 4) { throw new ArgumentOutOfRangeException("numbers", "Four numbers are excepted."); }
-
 			// we need two bit for the four different operators.
 			var operators = 64; // ((numbers.Length - 1) << 4) << 2;
 
@@ -361,10 +383,8 @@ namespace GentleWare.Krypto
 
 		#region 5 Cards
 
-		public static IEnumerable<IKryptoNode> Solve5(int solution, params int[] numbers)
+		private static IEnumerable<IKryptoNode> Solve5(int solution, params int[] numbers)
 		{
-			if (numbers == null || numbers.Length != 5) { throw new ArgumentOutOfRangeException("numbers", "Five numbers are excepted."); }
-
 			// we need two bit for the four different operators.
 			var operators = 256; // ((numbers.Length - 1) << 4) << 2;
 
@@ -637,7 +657,7 @@ namespace GentleWare.Krypto
 
 		/// <summary>Applies the operator on arg0 and arg1.</summary>
 		/// <returns>
-		/// The outcome of the operation or Int32.MinValue if not applicable.
+		/// The outcome of the operation or SolutionNode.NoSolutionValue if not applicable.
 		/// </returns>
 		private static int Operate(int arg0, int arg1, OperatorType opr)
 		{
@@ -651,7 +671,7 @@ namespace GentleWare.Krypto
 
 				case OperatorType.Multiply:
 					// No 2 * 2 (use 2 + 2)
-					if (arg0 == 2 && arg1 == 2) { return int.MinValue; }
+					if (arg0 == 2 && arg1 == 2) { return SolutionNode.NoSolutionValue; }
 					result = arg0 * arg1;
 					break;
 
@@ -663,14 +683,14 @@ namespace GentleWare.Krypto
 					if (arg0 == 0 ||
 						arg1 == 0 ||
 						arg1 == 1 ||
-						arg0 % arg1 != 0) { return int.MinValue; }
+						arg0 % arg1 != 0) { return SolutionNode.NoSolutionValue; }
 					// No 4 / 2 => 4 - 2
-					if (arg0 == 4 && arg1 == 2) { return int.MinValue; }
+					if (arg0 == 4 && arg1 == 2) { return SolutionNode.NoSolutionValue; }
 					result = arg0 / arg1;
 					break;
 
 				case OperatorType.Subtract:
-					if (arg0 < arg1) { return int.MinValue; }
+					if (arg0 < arg1) { return SolutionNode.NoSolutionValue; }
 					result = arg0 - arg1;
 					break;
 

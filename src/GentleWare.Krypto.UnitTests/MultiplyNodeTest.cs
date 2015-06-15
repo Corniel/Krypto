@@ -20,10 +20,10 @@ namespace GentleWare.Krypto.UnitTests
 		}
 
 		[Test]
-		public void Complexity_TestNode_1535d625()
+		public void Complexity_TestNode_1589d375()
 		{
 			var act = TestNode.Complexity;
-			var exp = 1535.625;
+			var exp = 1589.375;
 
 			Assert.AreEqual(exp, act, 0.001);
 		}
@@ -37,17 +37,7 @@ namespace GentleWare.Krypto.UnitTests
 
 			Assert.AreEqual(exp, act);
 		}
-
-		[Test]
-		public void Negate_4x2x1_min4x2x1()
-		{
-			var node = new MultiplyNode(4, 2, 1);
-			var act = node.Negate();
-			var exp = new MultiplyWithOneNode(new NegationNode(new MultiplyNode(4, 2)), new ValueNode(1));
-
-			Assert.AreEqual(exp, act);
-		}
-
+		
 		[Test]
 		public void Negate_4x3_min3x4()
 		{
@@ -77,15 +67,6 @@ namespace GentleWare.Krypto.UnitTests
 			Assert.AreEqual(exp, act);
 			Assert.AreNotSame(exp, act);
 		}
-		[Test]
-		public void Simplify_TestNode_3m2x3x17()
-		{
-			var act = TestNode.Simplify();
-			var exp = new MultiplyWithOneNode(new MultiplyNode(17, 3), new AddNode(3, -2));
-
-			Assert.AreEqual(exp, act);
-			Assert.AreNotSame(exp, act);
-		}
 
 		[Test]
 		public void Simplify_ComplexExpression()
@@ -102,19 +83,19 @@ namespace GentleWare.Krypto.UnitTests
 		}
 
 		[Test]
-		public void ToString_TestNode_StringRepresentationPlus3Plus2Minus3()
+		public void ToString_TestNode_m3x2m3x17()
 		{
 			var act = TestNode.ToString();
-			var exp = "(17 * -3 * (2 - 3))";
+			var exp = "(-3 * (2 - 3) * 17)";
 
 			Assert.AreEqual(exp, act);
 		}
 
 		[Test]
-		public void GetHashCode_TestNode_Minus786461()
+		public void GetHashCode_TestNode_m393283()
 		{
 			var act = TestNode.GetHashCode();
-			var exp = -786461;
+			var exp = -393283;
 
 			Assert.AreEqual(exp, act);
 		}

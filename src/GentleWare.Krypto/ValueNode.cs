@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace GentleWare.Krypto
 {
@@ -17,13 +18,22 @@ namespace GentleWare.Krypto
 		public Int32 Value { get { return m_Value; } }
 
 		/// <summary>Gets the (potentially) complexity of the node.</summary>
-		public Double Complexity { get { return 250 - m_Value; } }
+		public Double Complexity { get { return 250 + m_Value; } }
+
+		/// <summary>Returns false as its only one value node.</summary>
+		public bool IsComplex { get { return false; } }
 
 		/// <summary>Negates the node.</summary>
 		public IKryptoNode Negate() { return new ValueNode(-m_Value); }
 
 		/// <summary>Simplifies the node.</summary>
 		public IKryptoNode Simplify() { return this; }
+
+		/// <summary>Gets the underlying value nodes.</summary>
+		public IEnumerable<ValueNode> GetValueNodes()
+		{
+			yield return this;
+		}
 
 		/// <summary>Represents the node as a <see cref="System.String"/>.</summary>
 		public override string ToString() { return m_Value.ToString(); }

@@ -1,5 +1,7 @@
 ﻿using Qowaiv;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GentleWare.Krypto
 {
@@ -7,8 +9,8 @@ namespace GentleWare.Krypto
 	public struct DivideNode : IKryptoNode
 	{
 		/// <summary>Underlying nominator.</summary>
-		private IKryptoNode Nominator;
-		private IKryptoNode Denominator;
+		internal IKryptoNode Nominator;
+		internal IKryptoNode Denominator;
 		
 		/// <summary>Creates a new instance of the node.</summary>
 		public DivideNode(int nominator, int denominator) 
@@ -20,7 +22,7 @@ namespace GentleWare.Krypto
 			Nominator = Guard.NotNull(nominator, "nominator");
 			Denominator = Guard.NotNull(denominator, "denominator");
 			
-			if (Denominator.Value == 0)
+			if (Denominator.IsZero())
 			{
 				throw new ArgumentOutOfRangeException("denominator", "Denominator should not be zero.");
 			}
@@ -36,10 +38,13 @@ namespace GentleWare.Krypto
 		/// <summary>Gets the (potentially) complexity of the node.</summary>
 		public Double Complexity { get { return (Nominator.Complexity + Denominator.Complexity) * 1.95; } }
 
+		/// <summary>Returns true as it always contains two nodes.</summary>
+		public bool IsComplex { get { return true; } }
+
 		/// <summary>Negates the node.</summary>
 		public IKryptoNode Negate()
 		{
-			return Simplify(Value > 0);
+			return Simplify(this.IsPositive());
 		}
 
 		/// <summary>Simplifies the node.</summary>
@@ -57,12 +62,26 @@ namespace GentleWare.Krypto
 			var nVal = nom.Value;
 			var dVal = den.Value;
 			
-			// (4 / 2 ) =>  (4 + -2)
+			// (4 / 2) =>  (4 + -2)
 			if (nVal == 4 && dVal == 2)
 			{
 				return KryptoNode.Negate(new AddNode(nom, den.Negate()), negate);
 			}
+			// (a * 4) / 2  => a * (4 + -2)
+			if (dVal == 2 && nom is MultiplyNode)
+			{
+				var args = ((MultiplyNode)nom).Arguments.ToList();
+				var fours = args.Where(arg => arg.Value == 4).ToList();
 
+				if (fours.Count > 0)
+				{
+					var sub = new AddNode(fours[0], den.Negate());
+					args.Remove(fours[0]);
+					args.Add(sub);
+					return KryptoNode.Negate(MultiplyNode.Create(args), negate);
+				}
+			}
+						
 			// (n / 1) => (n * 1)
 			// (0 / d) => (0 * d)
 			if (dVal == 1 || nVal == 0)
@@ -70,15 +89,68 @@ namespace GentleWare.Krypto
 				return KryptoNode.Negate(new MultiplyNode(nom, den), negate);
 			}
 
-			// (n / d) where n == d, most complex as nominator.
-			if (dVal == nVal && den.Complexity > nom.Complexity)
+			// (n / d) == 1, most complex as nominator.
+			if (dVal == nVal)
 			{
-				return KryptoNode.Negate(new DivideNode(den, nom), negate);
+				// a / (b - c) => (a + c) / b
+				if (den is AddNode)
+				{
+					var add = (AddNode)den;
+
+					if (add.Arguments.Length == 2 && add.Arguments[1].IsNegative())
+					{
+						den = add.Arguments[0];
+						nom = new AddNode(nom, add.Arguments[1].Negate());
+						
+					}
+				}
+				// (a - b) / c => (b + c) / a
+				else if (nom is AddNode)
+				{
+					var add = (AddNode)nom;
+
+					if (add.Arguments.Length == 2 && add.Arguments[1].IsNegative())
+					{
+						nom = new AddNode(den, add.Arguments[1].Negate());
+						den = add.Arguments[0];
+					}
+				}
+
+				if (den.Complexity > nom.Complexity)
+				{
+					return KryptoNode.Negate(new DivideNode(den, nom), negate);
+				}
 			}
 
 			// ((a * b) / a) => (b + (a - a))
+			if (nom is MultiplyNode)
+			{
+				var mp = (MultiplyNode)nom;
+
+				var a = mp.Arguments.LastOrDefault(arg => arg.Value == den.Value);
+				if (a != null)
+				{
+					var b = mp.Arguments.ToList();
+					b.Remove(a);
+					return KryptoNode.Negate(new AddNode(
+						MultiplyNode.Create(b), new AddNode(a, den.Negate())), negate);
+				}
+			}
 
 			return KryptoNode.Negate(new DivideNode(nom, den), negate);
+		}
+
+		/// <summary>Gets the underlying value nodes.</summary>
+		public IEnumerable<ValueNode> GetValueNodes()
+		{
+			foreach (var node in Nominator.GetValueNodes())
+			{
+				yield return node;
+			}
+			foreach (var node in Denominator.GetValueNodes())
+			{
+				yield return node;
+			}
 		}
 
 		/// <summary>Represents the node as a <see cref="System.String"/>.</summary>

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KryptoDeck.cs" />
     <Compile Include="KryptoNode.cs" />
     <Compile Include="KryptoSolver.cs">
       <SubType>Code</SubType>
@@ -46,7 +47,6 @@
     <Compile Include="MultiplyNode.cs" />
     <Compile Include="AddNode.cs" />
     <Compile Include="IKryptoNode.cs" />
-    <Compile Include="MultiplyWithOneNode.cs" />
     <Compile Include="NegationNode.cs" />
     <Compile Include="DivideNode.cs" />
     <Compile Include="OperatorType.cs" />

@@ -17,10 +17,10 @@ namespace GentleWare.Krypto.UnitTests
 		}
 
 		[Test]
-		public void Complexity_TestNode_277d27()
+		public void Complexity_TestNode_317d73()
 		{
 			var act = TestNode.Complexity;
-			var exp = 277.27d;
+			var exp = 317.73d;
 
 			Assert.AreEqual(exp, act, 0.001);
 		}
