@@ -10,7 +10,7 @@ namespace GentleWare.Krypto
         private static readonly NodeComparer Comparer = new NodeComparer();
 
         /// <summary>Underlying nodes.</summary>
-        internal IKryptoNode[] Arguments;
+        internal readonly IKryptoNode[] Arguments;
 
         /// <summary>Creates a new instance of the node.</summary>
         public MultiplyNode(params int[] arguments)
@@ -75,7 +75,7 @@ namespace GentleWare.Krypto
             FlattenArguments(args, dividers);
 
             var twos = args.GetValueTwoNodes();
-            // (2 * 2) => (2 + 2);
+            // (2 * 2) => (2 + 2)
             if (twos.Count > 1)
             {
                 var two = new AddNode(twos[0], twos[1]);
@@ -137,19 +137,16 @@ namespace GentleWare.Krypto
         /// <summary>Returns true if the node and the object are equal, otherwise false.</summary>
         public override bool Equals(object obj)
         {
-            if (obj is MultiplyNode other)
+            if (obj is MultiplyNode other && Arguments.Length == other.Arguments.Length)
             {
-                if (Arguments.Length == other.Arguments.Length)
+                for (var i = 0; i < Arguments.Length; i++)
                 {
-                    for (var i = 0; i < Arguments.Length; i++)
+                    if (!Arguments[i].Equals(other.Arguments[i]))
                     {
-                        if (!Arguments[i].Equals(other.Arguments[i]))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                    return true;
                 }
+                return true;
             }
             return false;
         }

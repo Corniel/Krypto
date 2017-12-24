@@ -7,7 +7,7 @@ namespace GentleWare.Krypto
     public struct NegationNode : IKryptoNode
     {
         /// <summary>Underlying node.</summary>
-        private IKryptoNode Child;
+        private readonly IKryptoNode Child;
 
         /// <summary>Creates a new instance of the node.</summary>
         public NegationNode(IKryptoNode node) { Child = Guard.NotNull(node, "node"); }

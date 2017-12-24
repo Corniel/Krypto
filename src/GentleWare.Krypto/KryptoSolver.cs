@@ -57,7 +57,7 @@ namespace GentleWare.Krypto
         {
             if (numbers == null || numbers.Length < 2) { throw new ArgumentException("At least two numbers should be specified.", "numbers"); }
 
-            var solutions = Enumerable.Empty<SolutionNode>();
+            IEnumerable<SolutionNode> solutions;
 
             switch (numbers.Length)
             {
@@ -87,20 +87,13 @@ namespace GentleWare.Krypto
                 do
                 {
                     cur = cur.Simplify();
-                    if (node.Value != cur.Value)
-                    {
-                        Debugger.Break();
-                        throw new Exception("Value changed");
-                    }
+                    Debug.Assert(node.Value == cur.Value, "Value changed.");
 
                 }
                 while (simplifiers.Add(cur));
 
                 var best = simplifiers.OrderBy(s => s.Complexity).FirstOrDefault();
 
-                if (best.ToString() == "25 = 5 * ((1) + 4) * (3 - 2)")
-                {
-                }
                 distincts.Add((SolutionNode)best);
             }
             return distincts.OrderBy(s => s.Complexity);
@@ -140,7 +133,7 @@ namespace GentleWare.Krypto
         private static IEnumerable<IKryptoNode> Solve3(int solution, params int[] numbers)
         {
             // we need two bit for the four different operators.
-            var operators = 16; // ((numbers.Length - 1) << 4) << 2;
+            var operators = 16; // ((numbers.Length - 1) << 4) << 2
 
             var numberOrder = CreateNumberOrderList(new List<int>(), 0, 0, numbers.Length);
 
@@ -251,7 +244,7 @@ namespace GentleWare.Krypto
         private static IEnumerable<IKryptoNode> Solve4(int solution, params int[] numbers)
         {
             // we need two bit for the four different operators.
-            var operators = 64; // ((numbers.Length - 1) << 4) << 2;
+            var operators = 64; // ((numbers.Length - 1) << 4) << 2
 
             var numberOrder = CreateNumberOrderList(new List<int>(), 0, 0, numbers.Length);
 
@@ -385,7 +378,7 @@ namespace GentleWare.Krypto
         private static IEnumerable<IKryptoNode> Solve5(int solution, params int[] numbers)
         {
             // we need two bit for the four different operators.
-            var operators = 256; // ((numbers.Length - 1) << 4) << 2;
+            var operators = 256; // ((numbers.Length - 1) << 4) << 2
 
             var numberOrder = CreateNumberOrderList(new List<int>(), 0, 0, numbers.Length);
 
@@ -608,7 +601,10 @@ namespace GentleWare.Krypto
                         break;
                     }
                 }
+#pragma warning disable S1168 // Empty arrays and collections should be returned instead of null
+                // This is the actual contract.
                 if (isLast) { return null; }
+#pragma warning restore S1168 // Empty arrays and collections should be returned instead of null
 
                 // No index set so determine a new one.
                 else if (index == -1)

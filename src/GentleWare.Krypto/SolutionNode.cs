@@ -15,7 +15,7 @@ namespace GentleWare.Krypto
         public static readonly SolutionNode None = new NoSolutionNode();
 
         /// <summary>Underlying node.</summary>
-        private IKryptoNode Child;
+        private readonly IKryptoNode Child;
 
         private SolutionNode() { }
 
