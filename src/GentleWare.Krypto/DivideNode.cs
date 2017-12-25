@@ -8,8 +8,8 @@ namespace GentleWare.Krypto
     public struct DivideNode : IKryptoNode
     {
         /// <summary>Underlying nominator.</summary>
-        internal IKryptoNode Nominator;
-        internal IKryptoNode Denominator;
+        internal readonly IKryptoNode Nominator;
+        internal readonly IKryptoNode Denominator;
 
         /// <summary>Creates a new instance of the node.</summary>
         public DivideNode(int nominator, int denominator)
@@ -92,23 +92,21 @@ namespace GentleWare.Krypto
             if (dVal == nVal)
             {
                 // a / (b - c) => (a + c) / b
-                if (den is AddNode add)
+                if (den is AddNode add &&
+                    add.Arguments.Length == 2 && 
+                    add.Arguments[1].IsNegative())
                 {
-                    if (add.Arguments.Length == 2 && add.Arguments[1].IsNegative())
-                    {
-                        den = add.Arguments[0];
-                        nom = new AddNode(nom, add.Arguments[1].Negate());
+                    den = add.Arguments[0];
+                    nom = new AddNode(nom, add.Arguments[1].Negate());
 
-                    }
                 }
                 // (a - b) / c => (b + c) / a
-                else if (nom is AddNode add1)
+                else if (nom is AddNode add1 &&
+                    add1.Arguments.Length == 2 && 
+                    add1.Arguments[1].IsNegative())
                 {
-                    if (add1.Arguments.Length == 2 && add1.Arguments[1].IsNegative())
-                    {
-                        nom = new AddNode(den, add1.Arguments[1].Negate());
-                        den = add1.Arguments[0];
-                    }
+                    nom = new AddNode(den, add1.Arguments[1].Negate());
+                    den = add1.Arguments[0];
                 }
 
                 if (den.Complexity > nom.Complexity)

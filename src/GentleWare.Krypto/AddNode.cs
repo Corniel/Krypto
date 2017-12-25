@@ -10,7 +10,7 @@ namespace GentleWare.Krypto
         private static readonly NodeComparer Comparer = new NodeComparer();
 
         /// <summary>Underlying node.</summary>
-        internal IKryptoNode[] Arguments;
+        internal readonly IKryptoNode[] Arguments;
 
         /// <summary>Creates a new instance of the node.</summary>
         public AddNode(params int[] arguments)
@@ -144,19 +144,16 @@ namespace GentleWare.Krypto
         /// <summary>Returns true if the node and the object are equal, otherwise false.</summary>
         public override bool Equals(object obj)
         {
-            if (obj is AddNode other)
+            if (obj is AddNode other && Arguments.Length == other.Arguments.Length)
             {
-                if (Arguments.Length == other.Arguments.Length)
+                for (var i = 0; i < Arguments.Length; i++)
                 {
-                    for (var i = 0; i < Arguments.Length; i++)
+                    if (!Arguments[i].Equals(other.Arguments[i]))
                     {
-                        if (!Arguments[i].Equals(other.Arguments[i]))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                    return true;
                 }
+                return true;
             }
             return false;
         }
