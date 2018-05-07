@@ -2,7 +2,6 @@
 
 namespace GentleWare.Krypto.UnitTests
 {
-    [TestFixture]
     public class NegationNodeTest
     {
         public static readonly NegationNode TestNode = new NegationNode(new ValueNode(17));

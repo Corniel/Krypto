@@ -1,31 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net462</TargetFramework>
-    <RootNamespace>GentleWare.Krypto.UnitTests</RootNamespace>
-    <AssemblyName>GentleWare.Krypto.UnitTests</AssemblyName>
-    <Description>Krypto puzzle solver unit tests</Description>
-    <Copyright>Copyright © 2012, Corniel Nobel</Copyright>
-    <Product>GentleWare.Krypto</Product>
-    <Company>{None}</Company>
-    <Authors>Corniel Nobel</Authors>
-    <Version>1.0.1</Version>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net462</TargetFramework>
+		<RootNamespace>GentleWare.Krypto.UnitTests</RootNamespace>
+		<AssemblyName>GentleWare.Krypto.UnitTests</AssemblyName>
+		<Description>Krypto puzzle solver unit tests</Description>
+		<Copyright>Copyright © 2012, Corniel Nobel</Copyright>
+		<Product>GentleWare.Krypto</Product>
+		<Company>{None}</Company>
+		<Authors>Corniel Nobel</Authors>
+		<Version>1.0.1</Version>
+		<DebugType>full</DebugType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="NUnit" Version="3.9.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.0.4267" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+		<PackageReference Include="NUnit" Version="3.9.0" />
+		<PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\GentleWare.Krypto\GentleWare.Krypto.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\GentleWare.Krypto\GentleWare.Krypto.csproj" />
+	</ItemGroup>
 
 </Project>

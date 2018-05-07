@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace GentleWare.Krypto.UnitTests
 {
-    [TestFixture]
     public class PerformanceTest
     {
         [Test]

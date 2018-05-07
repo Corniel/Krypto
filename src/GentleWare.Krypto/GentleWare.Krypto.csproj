@@ -1,20 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>GentleWare.Krypto</RootNamespace>
-    <AssemblyName>GentleWare.Krypto</AssemblyName>
-    <Description>Krypto puzzle solver</Description>
-    <Copyright>Copyright © 2012, Corniel Nobel</Copyright>
-    <Product>GentleWare.Krypto</Product>
-    <Company>{None}</Company>
-    <Authors>Corniel Nobel</Authors>
-    <Version>1.0.1</Version>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>GentleWare.Krypto</RootNamespace>
+		<AssemblyName>GentleWare.Krypto</AssemblyName>
+		<Description>Krypto puzzle solver</Description>
+		<Copyright>Copyright © 2012, Corniel Nobel</Copyright>
+		<Product>GentleWare.Krypto</Product>
+		<Company>{None}</Company>
+		<Authors>Corniel Nobel</Authors>
+		<Version>1.0.1</Version>
+		<DebugType>full</DebugType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.0.4267" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="7.1.0.521" />
+	</ItemGroup>
 
 </Project>

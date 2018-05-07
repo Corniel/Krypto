@@ -2,7 +2,6 @@
 
 namespace GentleWare.Krypto.UnitTests
 {
-    [TestFixture]
     public class MultiplyNodeTest
     {
         public static readonly MultiplyNode TestNode = new MultiplyNode(

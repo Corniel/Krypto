@@ -3,7 +3,6 @@ using System;
 
 namespace GentleWare.Krypto.UnitTests
 {
-    [TestFixture]
     public class KryptoDeckTest
     {
         [Test]

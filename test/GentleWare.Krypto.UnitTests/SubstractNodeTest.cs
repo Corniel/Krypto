@@ -2,7 +2,6 @@
 
 namespace GentleWare.Krypto.UnitTests
 {
-    [TestFixture]
     public class SubtractNodeTest
     {
         public static readonly SubtractNode TestNode = new SubtractNode(17, 4);
