@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>library</OutputType>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Krypto/Krypto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="TestTools">
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="NUnit" />
+  </ItemGroup>
+
+  <ItemGroup Label="build tools">
+    <PackageReference PrivateAssets="all" Include="coverlet.collector"  />
+    <PackageReference PrivateAssets="all" Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference PrivateAssets="all" Include="NUnit3TestAdapter"  />
+  </ItemGroup>
+
+  <ItemGroup Label="Analyzers">
+    <PackageReference PrivateAssets="all" Include="AwesomeAssertions.Analyzers"  />
+    <PackageReference PrivateAssets="all" Include="NUnit.Analyzers" />
+  </ItemGroup>
+
+</Project>

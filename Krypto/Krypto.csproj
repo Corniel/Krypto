@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference PrivateAssets="all" Include="Qowaiv.Analyzers.CSharp" />
+    <PackageReference PrivateAssets="all" Include="StyleCop.Analyzers.Unstable" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path=".net.csproj" />
+  <Project Path="Krypto/Krypto.csproj" />
+  <Project Path="Krypto.Benchmarks/Krypto.Benchmarks.csproj" />
+  <Project Path="Krypto.Specs/Krypto.Specs.csproj" />
+</Solution>

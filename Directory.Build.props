@@ -1,0 +1,22 @@
+<Project>
+  
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>13.0</LangVersion>
+    <IsPublishable>false</IsPublishable>
+    <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <NuGetAuditMode>all</NuGetAuditMode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Krypto puzzle solver</Description>
+    <Copyright>Copyright © Corniel Nobel 2012-current</Copyright>
+    <Product>Krypto</Product>
+    <Company>{None}</Company>
+    <Authors>Corniel Nobel</Authors>
+    <PackageTags>Krypto;solver</PackageTags>
+  </PropertyGroup>
+
+</Project>
