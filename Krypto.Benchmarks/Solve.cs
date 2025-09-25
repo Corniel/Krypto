@@ -25,7 +25,7 @@ public class Solve
     }
 
     [Benchmark]
-    public List<Node> _new()
+    public List<Node> All_solutions()
     {
         New.Clear();
         for (var i = 0; i < Count; i++)
@@ -36,7 +36,7 @@ public class Solve
     }
 
     [Benchmark]
-    public List<Node> new_simplify()
+    public List<Node> Simplified_solutions()
     {
         New.Clear();
         for (var i = 0; i < Count; i++)
@@ -47,7 +47,7 @@ public class Solve
     }
 
     [Benchmark]
-    public List<Node> new_single()
+    public List<Node> Single_solution()
     {
         New.Clear();
         for (var i = 0; i < Count; i++)

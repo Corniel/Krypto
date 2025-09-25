@@ -34,3 +34,12 @@ outcome, independent of the used operator, they are equal, so:
 * `4 - 2` equals `4 / 2`
 * `n * 1` equals `n / 1`
 * `0 * n` equals `0 / n when n != 0`
+
+## Performance
+A random set of 1000 puzzles:
+
+| Solves         | Mean   | Description                   |
+|----------------|-------:|-------------------------------|
+| Single         | 210 μs | Finds only the first solution |
+| All            | 948 μs | Finds all unique solutions    |
+| All simplified | 997 μs | Merges equivalent solutions   |

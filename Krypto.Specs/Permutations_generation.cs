@@ -1,22 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Permutations_generation;
 
-[Explicit]
 internal class Permutations_generation
 {
-    [TestCase(0, 1, 2)]
-    [TestCase(0, 1, 2, 3)]
-    [TestCase(0, 1, 2, 3, 4)]
-    public void Generates(params int[] order)
+    [TestCase(006, /* => */ 0, 1, 2)]
+    [TestCase(024, /* => */ 0, 1, 2, 3)]
+    [TestCase(010, /* => */ 0, 0, 1, 1, 1)]
+    [TestCase(020, /* => */ 0, 1, 2, 2, 2)]
+    [TestCase(030, /* => */ 0, 1, 1, 2, 2)]
+    [TestCase(060, /* => */ 0, 1, 2, 3, 3)]
+    [TestCase(120, /* => */ 0, 1, 2, 3, 4)]
+    public void Generates(int count, params int[] order)
     {
-        foreach (var p in order.Permutations())
-        {
-            Console.WriteLine($"[{string.Join(", ", p)}],");
-        }
+        var lines = new HashSet<string>();
 
-        Assert.Inconclusive();
+        foreach (var p in order.Permutations())
+            lines.Add($"[{string.Join(", ", p)}],");
+        
+        foreach(var line in lines.Order())
+            Console.WriteLine(line);
+
+        lines.Should().HaveCount(count);
     }
 }
 

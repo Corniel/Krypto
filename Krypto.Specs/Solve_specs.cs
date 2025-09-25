@@ -6,6 +6,13 @@ namespace Solve_specs;
 
 public class Five_cards
 {
+    [TestCase(23, /* = */ 16, 4, 1, 1, 8)]
+    [TestCase(18, /* = */ 15, 21, 8, 5, 5)]
+    [TestCase(17, /* = */ 2, 2, 2, 3, 5)]
+    [TestCase(18, /* = */ 15, 8, 8, 5, 5)]
+    public void Solves_solutions(int target, params int[] cards)
+        => KryptoSolver.Solve(target, cards).Should().NotBeEmpty();
+
     [Test]
     public void Simplify_solutions_and_reduces_to_30()
     {
