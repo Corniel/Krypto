@@ -1,9 +1,15 @@
 namespace Krypto;
 
+/// <summary>Represents a negated node.</summary>
+/// <remarks>
+/// To make life easier, subtraction is convertered into addition with negated values.
+/// </remarks>
 public sealed class Negation(Node node) : Node, IEquatable<Negation>
 {
+    /// <summary>The node that is being negated.</summary>
     public Node Node { get; } = node;
 
+    /// <inheritdoc />
     public int Value => -Node.Value;
 
     /// <inheritdoc />

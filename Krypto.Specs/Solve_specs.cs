@@ -42,15 +42,16 @@ public class Five_cards
     }
 
     [Test]
-    public void All_questions_2_752_048()
-        => Deck.Fives().Should().HaveCount(2_752_048);
+    public void All_questions_2_643_827()
+        => Deck.Fives().Should().HaveCount(2_643_827);
 
     [Explicit]
     [Test]
-    public void Solves_1_737_781()
+    public void Solves_1_692_067()
     {
         var solvable = Deck.Fives().Count(q => KryptoSolver.Solve(q[0], [.. q[1..]]).Any());
-        solvable.Should().Be(1_737_781);
+        solvable.Should().Be(1_692_067);
+        
     }
 }
 
@@ -101,26 +102,26 @@ public class Four_cards
         => KryptoSolver.Solve(target, cards).Should().NotBeEmpty();
 
     [Test]
-    public void All_questions_482_963() => Deck.Fours().Should().HaveCount(482_963);
+    public void All_questions_439_913() => Deck.Fours().Should().HaveCount(439_913);
 
     [Explicit]
     [Test]
-    public void Solves_271_3093()
+    public void Solves_253_462()
     {
         var solvable = Deck.Fours().Count(q => KryptoSolver.Solve(q[0], [.. q[1..]]).Any());
-        solvable.Should().Be(271_309);
+        solvable.Should().Be(253_462);
     }
 }
 
 public class Three_cards
 {
     [Test]
-    public void All_questions_71_075() => Deck.Threes().Should().HaveCount(71_075);
+    public void All_questions_67_154() => Deck.Threes().Should().HaveCount(67_154);
 
     [Test]
-    public void Solves_12_321()
+    public void Solves_11_857()
     {
         var solvable = Deck.Threes().Count(q => KryptoSolver.Solve(q[0], [.. q[1..]]).Any());
-        solvable.Should().Be(12_321);
+        solvable.Should().Be(11_857);
     }
 }

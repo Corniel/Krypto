@@ -18,7 +18,7 @@ public class Solve
         var rnd = new MathNet.Numerics.Random.MersenneTwister(17);
         for (var i = 0; i < Count; i++)
         {
-            var cards = Deck.Random(rnd).Take(6).ToArray();
+            var cards = Deck.New(rnd).Take(6).ToArray();
             Targets[i] = cards[0];
             Cards[i] = cards[1..];
         }

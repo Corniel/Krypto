@@ -40,6 +40,6 @@ A random set of 1000 puzzles:
 
 | Solves         | Mean   | Description                   |
 |----------------|-------:|-------------------------------|
-| Single         | 210 μs | Finds only the first solution |
-| All            | 948 μs | Finds all unique solutions    |
-| All simplified | 997 μs | Merges equivalent solutions   |
+| Single         | 187 μs | Finds only the first solution |
+| All            | 836 μs | Finds all unique solutions    |
+| All simplified | 878 μs | Merges equivalent solutions   |

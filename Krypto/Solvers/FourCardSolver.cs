@@ -1,5 +1,6 @@
 namespace Krypto.Solvers;
 
+/// <summary>Solves Krypto puzzles with 4 cards.</summary>
 public sealed class FourCardSolver(int solution, params int[] cards) : Solver
 {
     private const int Mutations = 64 * 2 * 24;
@@ -7,6 +8,7 @@ public sealed class FourCardSolver(int solution, params int[] cards) : Solver
     private readonly int Solution = solution;
     private readonly int[] Cards = cards;
 
+    /// <inheritdoc />
     [Impure]
     public override bool MoveNext()
     {
@@ -48,9 +50,9 @@ public sealed class FourCardSolver(int solution, params int[] cards) : Solver
             Operate.Numbers(mutation >> 4, v1, c3, out var v2) &&
             v2 == Solution)
         {
-            var n0 = Nodes.New(mutation >> 0, Nodes.New(c0), Nodes.New(c1));
-            var n1 = Nodes.New(mutation >> 2, n0, Nodes.New(c2));
-            var m2 = Nodes.New(mutation >> 4, n1, Nodes.New(c3));
+            var n0 = Node.New(mutation >> 0, Node.New(c0), Node.New(c1));
+            var n1 = Node.New(mutation >> 2, n0, Node.New(c2));
+            var m2 = Node.New(mutation >> 4, n1, Node.New(c3));
             Current = m2;
             return true;
         }
@@ -73,9 +75,9 @@ public sealed class FourCardSolver(int solution, params int[] cards) : Solver
             Operate.Numbers(mutation >> 4, v0, v1, out var v2) &&
             v2 == Solution)
         {
-            var n0 = Nodes.New(mutation >> 0, Nodes.New(c0), Nodes.New(c1));
-            var n1 = Nodes.New(mutation >> 2, Nodes.New(c2), Nodes.New(c3));
-            var n2 = Nodes.New(mutation >> 4, n0, n1);
+            var n0 = Node.New(mutation >> 0, Node.New(c0), Node.New(c1));
+            var n1 = Node.New(mutation >> 2, Node.New(c2), Node.New(c3));
+            var n2 = Node.New(mutation >> 4, n0, n1);
             Current = n2;
             return true;
         }

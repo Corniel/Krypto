@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference PrivateAssets="all" Include="Qowaiv.Analyzers.CSharp" />
     <PackageReference PrivateAssets="all" Include="StyleCop.Analyzers.Unstable" />
   </ItemGroup>
 

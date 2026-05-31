@@ -1,5 +1,6 @@
 namespace Krypto.Solvers;
 
+/// <summary>Base solver.</summary>
 public abstract class Solver : IEnumerator<Node>, IEnumerable<Node>
 {
     /// <inheritdoc />
@@ -22,6 +23,7 @@ public abstract class Solver : IEnumerator<Node>, IEnumerable<Node>
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="IDisposable.Dispose()" />
     protected virtual void Dispose(bool disposing) { /* Nothing to dispose. */ }
 
     /// <inheritdoc />

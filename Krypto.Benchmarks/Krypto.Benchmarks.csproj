@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>exe</OutputType>
     <RootNamespace>Benchmarks</RootNamespace>
+    <IsTestCode>true</IsTestCode>
   </PropertyGroup>
 
   <ItemGroup>

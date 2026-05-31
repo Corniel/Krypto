@@ -2,21 +2,22 @@ using System.Linq;
 
 namespace Krypto.Solvers;
 
+/// <summary>Solves Krypto puzzles with 5 cards.</summary>
 public sealed class FiveCardSolver : Solver
 {
-    /// <remarks>
-    /// ABCDE = 0
-    /// ABCDD = 1
-    /// ABBCC = 2
-    /// ABCCC = 3
-    /// AABBB = 4.
-    /// </remarks>
+    private const int ABCDE = 0;
+    private const int ABCDD = 1;
+    private const int ABBCC = 2;
+    private const int ABCCC = 3;
+    private const int AABBB = 4;
+
+    /// <summary>Initializes a new instance of the <see cref="FiveCardSolver"/> class.</summary>
     public FiveCardSolver(int solution, params int[] cards)
     {
         Solution = solution;
         Cards = [.. cards.OrderBy(c => Count(c, cards))];
 
-        var config = 0;
+        var config = ABCDE;
 
         // We have a double
         if (Cards[3] == Cards[4])
@@ -25,12 +26,12 @@ public sealed class FiveCardSolver : Solver
             if (Cards[2] == Cards[3])
             {
                 // AABBB or ABCCC
-                config = Cards[0] == Cards[1] ? 4 : 3;
+                config = Cards[0] == Cards[1] ? AABBB : ABCCC;
             }
             else
             {
-                // ABBCC or ABCDD 
-                config = Cards[1] == Cards[2] ? 2 : 1;
+                // ABBCC or ABCDD
+                config = Cards[1] == Cards[2] ? ABBCC : ABCDD;
             }
         }
 
@@ -46,6 +47,7 @@ public sealed class FiveCardSolver : Solver
     private readonly int[] Cards;
     private readonly ImmutableArray<ImmutableArray<int>> Permutations;
 
+    /// <inheritdoc/>
     [Impure]
     public override bool MoveNext()
     {
@@ -94,10 +96,10 @@ public sealed class FiveCardSolver : Solver
             Operate.Numbers(mutation >> 6, v1, v2, out var v3) &&
             v3 == Solution)
         {
-            var n0 = Nodes.New(mutation >> 0, Nodes.New(c0), Nodes.New(c1));
-            var n1 = Nodes.New(mutation >> 2, n0, Nodes.New(c2));
-            var n2 = Nodes.New(mutation >> 4, Nodes.New(c3), Nodes.New(c4));
-            var n3 = Nodes.New(mutation >> 6, n1, n2);
+            var n0 = Node.New(mutation >> 0, Node.New(c0), Node.New(c1));
+            var n1 = Node.New(mutation >> 2, n0, Node.New(c2));
+            var n2 = Node.New(mutation >> 4, Node.New(c3), Node.New(c4));
+            var n3 = Node.New(mutation >> 6, n1, n2);
             Current = n3;
             return true;
         }
@@ -123,10 +125,10 @@ public sealed class FiveCardSolver : Solver
             Operate.Numbers(mutation >> 6, v2, c4, out var v3) &&
             v3 == Solution)
         {
-            var n0 = Nodes.New(mutation >> 0, Nodes.New(c0), Nodes.New(c1));
-            var n1 = Nodes.New(mutation >> 2, Nodes.New(c2), Nodes.New(c3));
-            var n2 = Nodes.New(mutation >> 4, n0, n1);
-            var n3 = Nodes.New(mutation >> 6, n2, Nodes.New(c4));
+            var n0 = Node.New(mutation >> 0, Node.New(c0), Node.New(c1));
+            var n1 = Node.New(mutation >> 2, Node.New(c2), Node.New(c3));
+            var n2 = Node.New(mutation >> 4, n0, n1);
+            var n3 = Node.New(mutation >> 6, n2, Node.New(c4));
             Current = n3;
             return true;
         }
@@ -154,10 +156,10 @@ public sealed class FiveCardSolver : Solver
             Operate.Numbers(mutation >> 6, v2, c4, out var v3) &&
             v3 == Solution)
         {
-            var n0 = Nodes.New(mutation >> 0, Nodes.New(c0), Nodes.New(c1));
-            var n1 = Nodes.New(mutation >> 2, n0, Nodes.New(c2));
-            var n2 = Nodes.New(mutation >> 4, n1, Nodes.New(c3));
-            var n3 = Nodes.New(mutation >> 6, n2, Nodes.New(c4));
+            var n0 = Node.New(mutation >> 0, Node.New(c0), Node.New(c1));
+            var n1 = Node.New(mutation >> 2, n0, Node.New(c2));
+            var n2 = Node.New(mutation >> 4, n1, Node.New(c3));
+            var n3 = Node.New(mutation >> 6, n2, Node.New(c4));
             Current = n3;
             return true;
         }

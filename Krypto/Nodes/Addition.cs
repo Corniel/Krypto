@@ -2,10 +2,13 @@ using System.Linq;
 
 namespace Krypto;
 
+/// <summary>Represents an addition of two or more nodes.</summary>
 public sealed class Addition(params ImmutableArray<Node> nodes) : Node, IEquatable<Addition>
 {
+    /// <summary>The nodes that are added together.</summary>
     public ImmutableArray<Node> Nodes { get; } = nodes;
 
+    /// <inheritdoc />
     public int Value
     {
         get

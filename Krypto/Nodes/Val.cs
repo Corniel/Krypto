@@ -2,6 +2,7 @@ using System.Diagnostics;
 
 namespace Krypto;
 
+/// <summary>Represents a single value/card.</summary>
 public readonly struct Val(int value) : Node, IEquatable<Val>
 {
     /// <inheritdoc />

@@ -1,11 +1,15 @@
 namespace Krypto;
 
+/// <summary>Represents an division of two nodes.</summary>
 public sealed class Division(Node nominator, Node denominator) : Node, IEquatable<Division>
 {
+    /// <summary>The nominator of the division.</summary>
     public Node Nominator { get; } = nominator;
 
+    /// <summary>The denominator of the division.</summary>
     public Node Denominator { get; } = denominator;
 
+    /// <inheritdoc />
     public int Value => Nominator.Value / Denominator.Value;
 
     /// <inheritdoc />

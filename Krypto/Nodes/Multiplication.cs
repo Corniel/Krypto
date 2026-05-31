@@ -2,10 +2,13 @@ using System.Linq;
 
 namespace Krypto;
 
+/// <summary>Represents an multiplication of two or more nodes.</summary>
 public sealed class Multiplication(params ImmutableArray<Node> nodes) : Node, IEquatable<Multiplication>
 {
+    /// <summary>The nodes that are mutliplied together.</summary>
     public ImmutableArray<Node> Nodes { get; } = nodes;
 
+    /// <inheritdoc/>
     public int Value
     {
         get

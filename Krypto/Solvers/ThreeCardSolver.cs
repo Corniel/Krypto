@@ -1,5 +1,6 @@
 namespace Krypto.Solvers;
 
+/// <summary>Solves Krypto puzzles with 3 cards.</summary>
 public sealed class ThreeCardSolver(int solution, params int[] cards) : Solver
 {
     private const int Mutations = 16 * 1 * 6;
@@ -7,6 +8,7 @@ public sealed class ThreeCardSolver(int solution, params int[] cards) : Solver
     private readonly int Solution = solution;
     private readonly int[] Cards = cards;
 
+    /// <inheritdoc />
     [Impure]
     public override bool MoveNext()
     {
@@ -44,8 +46,8 @@ public sealed class ThreeCardSolver(int solution, params int[] cards) : Solver
             Operate.Numbers(mutation >> 2, v0, c2, out var v1) &&
             v1 == Solution)
         {
-            var n0 = Nodes.New(mutation >> 0, Nodes.New(c0), Nodes.New(c1));
-            var n1 = Nodes.New(mutation >> 2, n0, Nodes.New(c2));
+            var n0 = Node.New(mutation >> 0, Node.New(c0), Node.New(c1));
+            var n1 = Node.New(mutation >> 2, n0, Node.New(c2));
             Current = n1;
             return true;
         }

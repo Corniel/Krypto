@@ -52,9 +52,7 @@ internal static class HeapPermutations
     }
 
     private static void Swap<T>(this T[] array, int index0, int index1)
-    {
-        (array[index1], array[index0]) = (array[index0], array[index1]);
-    }
+        => (array[index1], array[index0]) = (array[index0], array[index1]);
 
     private static T[] Copy<T>(this T[] array)
     {
