@@ -8,6 +8,12 @@
         "resolved": "1.15.2",
         "contentHash": "waAOyVGjDWA4Vw4xvrITEdBeRPNRhTIpJ4qwWXrOefvV1/WY3rY5OcaLJJdBERqEJKT3ADDkYD6zFh7Er7JwZg=="
       },
+      "Microsoft.NET.ILLink.Tasks": {
+        "type": "Direct",
+        "requested": "[10.0.10, )",
+        "resolved": "10.0.10",
+        "contentHash": "f5VCIE7AJpd5YvzNTeMGVzQIgyE9tX+AreTYwQF+REbu+DZo/2Ae+jNSwhPEYrVz6RRkd7y8ubXjk6Nn6Ka+Cg=="
+      },
       "Qowaiv.Analyzers.CSharp": {
         "type": "Direct",
         "requested": "[2.5.1, )",
@@ -25,13 +31,8 @@
         "requested": "[10.29.0.143774, )",
         "resolved": "10.29.0.143774",
         "contentHash": "YOBCHTjqb4ak7yjLQhQJ6S0+aTkgnuMcekjCrhWruyIIoWlB1C8W+Fgr18bWit+xx7Gd9sNl5sziOwh6D804Hg=="
-      },
-      "StyleCop.Analyzers.Unstable": {
-        "type": "Direct",
-        "requested": "[1.2.0.556, )",
-        "resolved": "1.2.0.556",
-        "contentHash": "zvn9Mqs/ox/83cpYPignI8hJEM2A93s2HkHs8HYMOAQW0PkampyoErAiIyKxgTLqbbad29HX/shv/6LGSjPJNQ=="
       }
-    }
+    },
+    "net10.0/browser-wasm": {}
   }
 }

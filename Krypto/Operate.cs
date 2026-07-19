@@ -40,9 +40,8 @@ public static class Operate
         }
         else
         {
-            var (division, remainder) = Math.DivRem(nominator, denominator);
-            outcome = division;
-            return remainder is 0;
+            outcome = nominator / denominator;
+            return nominator == denominator * outcome;
         }
     }
 
