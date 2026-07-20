@@ -27,6 +27,7 @@ public static class Deck
 
     /// <summary>Gets all positive combinations with 5 cards.</summary>
     [Pure]
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
     public static IEnumerable<ImmutableArray<int>> Fives()
     {
         for (var sol = 1; sol <= 25; sol++)
@@ -107,17 +108,14 @@ public static class Deck
     private static bool Fits(ImmutableArray<int> q)
     {
         for (var n = 20; n <= 25; n++)
-        {
             if (q.Count(x => x == n) > 1) return false;
-        }
+
         for (var n = 11; n <= 19; n++)
-        {
             if (q.Count(x => x == n) > 2) return false;
-        }
+
         for (var n = 1; n <= 10; n++)
-        {
             if (q.Count(x => x == n) > 3) return false;
-        }
+
         return true;
     }
 }

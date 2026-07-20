@@ -3,11 +3,8 @@ using System.Linq;
 namespace Krypto;
 
 /// <summary>Represents an addition of two or more nodes.</summary>
-public sealed class Addition(params ImmutableArray<Node> nodes) : Node, IEquatable<Addition>
+public readonly record struct Addition(params ImmutableArray<Node> Nodes) : Node
 {
-    /// <summary>The nodes that are added together.</summary>
-    public ImmutableArray<Node> Nodes { get; } = nodes;
-
     /// <inheritdoc />
     public int Value
     {
@@ -62,11 +59,7 @@ public sealed class Addition(params ImmutableArray<Node> nodes) : Node, IEquatab
 
     /// <inheritdoc />
     [Pure]
-    public override bool Equals(object? obj) => obj is Addition other && Equals(other);
-
-    /// <inheritdoc />
-    [Pure]
-    public bool Equals(Addition? other) => Enumerable.SequenceEqual(Nodes, other!.Nodes);
+    public bool Equals(Addition other) => Enumerable.SequenceEqual(Nodes, other.Nodes);
 
     /// <inheritdoc />
     [Pure]
@@ -74,9 +67,8 @@ public sealed class Addition(params ImmutableArray<Node> nodes) : Node, IEquatab
     {
         var hash = OperatorType.Add.GetHashCode();
         foreach (var node in Nodes)
-        {
             hash = HashCode.Combine(hash, node);
-        }
+
         return hash;
     }
 

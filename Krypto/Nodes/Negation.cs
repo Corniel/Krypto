@@ -4,11 +4,8 @@ namespace Krypto;
 /// <remarks>
 /// To make life easier, subtraction is convertered into addition with negated values.
 /// </remarks>
-public sealed class Negation(Node node) : Node, IEquatable<Negation>
+public readonly record struct Negation(Node Node) : Node
 {
-    /// <summary>The node that is being negated.</summary>
-    public Node Node { get; } = node;
-
     /// <inheritdoc />
     public int Value => -Node.Value;
 
@@ -21,18 +18,6 @@ public sealed class Negation(Node node) : Node, IEquatable<Negation>
     /// <inheritdoc />
     [Pure]
     public Node Negate() => Node.Simplify();
-
-    /// <inheritdoc />
-    [Pure]
-    public override bool Equals(object? obj) => obj is Negation other && Equals(other);
-
-    /// <inheritdoc />
-    [Pure]
-    public bool Equals(Negation? other) => Node.Equals(other!.Node);
-
-    /// <inheritdoc />
-    [Pure]
-    public override int GetHashCode() => HashCode.Combine(OperatorType.Negate, Node);
 
     /// <inheritdoc />
     [Pure]

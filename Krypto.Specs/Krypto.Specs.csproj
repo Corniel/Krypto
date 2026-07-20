@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>library</OutputType>
     <IsTestProject>true</IsTestProject>
+    <NoWarn>IDE0005</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

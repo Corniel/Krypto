@@ -38,8 +38,20 @@ outcome, independent of the used operator, they are equal, so:
 ## Performance
 A random set of 1000 puzzles:
 
-| Solves         | Mean   | Description                   |
-|----------------|-------:|-------------------------------|
-| Single         | 187 μs | Finds only the first solution |
-| All            | 836 μs | Finds all unique solutions    |
-| All simplified | 878 μs | Merges equivalent solutions   |
+| Method         | Cards | Mean      | Ratio |
+|--------------- |------:|----------:|------:|
+| Single         |   3   |   0.55 μs |  1.00 |
+| Al             |   3   |   0.65 μs |  1.18 |
+| All simplified |   3   |   0.91 μs |  1.64 |
+|                |       |           |       |
+| Single         |   4   |  18.40 μs |  1.00 |
+| Al             |   4   |  29.83 μs |  1.62 |
+| All simplified |   4   |  35.24 μs |  1.92 |
+|                |       |           |       |
+| Single         |   5   | 196.91 μs |  1.00 |
+| Al             |   5   | 854.40 μs |  4.34 |
+| All simplified |   5   | 920.11 μs |  4.67 |
+
+* Single:         Finds only the first solution
+* All:            Finds all unique solutions
+* All simplified: Merges equivalent solutions

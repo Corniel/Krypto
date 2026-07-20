@@ -1,14 +1,8 @@
 namespace Krypto;
 
 /// <summary>Represents an division of two nodes.</summary>
-public sealed class Division(Node nominator, Node denominator) : Node, IEquatable<Division>
+public readonly record struct Division(Node Nominator, Node Denominator) : Node
 {
-    /// <summary>The nominator of the division.</summary>
-    public Node Nominator { get; } = nominator;
-
-    /// <summary>The denominator of the division.</summary>
-    public Node Denominator { get; } = denominator;
-
     /// <inheritdoc />
     public int Value => Nominator.Value / Denominator.Value;
 
@@ -30,20 +24,6 @@ public sealed class Division(Node nominator, Node denominator) : Node, IEquatabl
             ? new Negation(new Division(l, r))
             : new Division(l, r);
     }
-
-    /// <inheritdoc />
-    [Pure]
-    public override bool Equals(object? obj) => obj is Division other && Equals(other);
-
-    /// <inheritdoc />
-    [Pure]
-    public bool Equals(Division? other)
-        => Nominator.Equals(other!.Nominator)
-        && Denominator.Equals(other.Denominator);
-
-    /// <inheritdoc />
-    [Pure]
-    public override int GetHashCode() => HashCode.Combine(OperatorType.Divide, Nominator, Denominator);
 
     /// <inheritdoc />
     [Pure]

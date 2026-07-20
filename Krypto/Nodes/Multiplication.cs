@@ -3,11 +3,8 @@ using System.Linq;
 namespace Krypto;
 
 /// <summary>Represents an multiplication of two or more nodes.</summary>
-public sealed class Multiplication(params ImmutableArray<Node> nodes) : Node, IEquatable<Multiplication>
+public readonly record struct Multiplication(params ImmutableArray<Node> Nodes) : Node
 {
-    /// <summary>The nodes that are mutliplied together.</summary>
-    public ImmutableArray<Node> Nodes { get; } = nodes;
-
     /// <inheritdoc/>
     public int Value
     {
@@ -58,11 +55,7 @@ public sealed class Multiplication(params ImmutableArray<Node> nodes) : Node, IE
 
     /// <inheritdoc />
     [Pure]
-    public override bool Equals(object? obj) => obj is Multiplication other && Equals(other);
-
-    /// <inheritdoc />
-    [Pure]
-    public bool Equals(Multiplication? other) => Enumerable.SequenceEqual(Nodes, other!.Nodes);
+    public bool Equals(Multiplication other) => Enumerable.SequenceEqual(Nodes, other.Nodes);
 
     /// <inheritdoc />
     [Pure]
@@ -70,9 +63,8 @@ public sealed class Multiplication(params ImmutableArray<Node> nodes) : Node, IE
     {
         var hash = OperatorType.Multiply.GetHashCode();
         foreach (var node in Nodes)
-        {
             hash = HashCode.Combine(hash, node);
-        }
+
         return hash;
     }
 
